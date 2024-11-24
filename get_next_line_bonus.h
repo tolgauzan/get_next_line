@@ -27,5 +27,6 @@ char	*get_next_line(int fd);
 char	*ft_free(char *content, char *buff);
 char	*ft_concat(char *content, char *buff);
 size_t	ft_strlen(const char *s);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
 
 #endif
