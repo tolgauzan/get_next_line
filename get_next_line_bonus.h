@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tuzan <tuzan@student.42kocaeli.com.tr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/25 01:19:20 by tuzan             #+#    #+#             */
-/*   Updated: 2024/11/25 01:19:20 by tuzan            ###   ########.fr       */
+/*   Created: 2024/11/27 22:27:38 by tuzan             #+#    #+#             */
+/*   Updated: 2024/11/27 22:27:38 by tuzan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@
 # endif
 
 # ifndef FD_MAX
-#  define FD_MAX 1024
+#  define FD_MAX 4096
 # endif
 
 char	*get_next_line(int fd);
-char	*ft_free(char *content, char *buff);
-char	*ft_concat(char *content, char *buff);
-size_t	ft_strlen(const char *s);
+char	*ft_free(char *reads, char *buff);
+char	*ft_strchr(const char *s, int c);
+char	*ft_append(char *reads, char *buff);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
+size_t	ft_strlen(const char *s);
 
 #endif

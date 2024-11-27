@@ -5,17 +5,17 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tuzan <tuzan@student.42kocaeli.com.tr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/25 01:19:23 by tuzan             #+#    #+#             */
-/*   Updated: 2024/11/25 01:19:23 by tuzan            ###   ########.fr       */
+/*   Created: 2024/11/27 22:26:57 by tuzan             #+#    #+#             */
+/*   Updated: 2024/11/27 22:26:57 by tuzan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-char	*ft_free(char *content, char *buff)
+char	*ft_free(char *reads, char *buff)
 {
-	if (content)
-		free(content);
+	if (reads)
+		free(reads);
 	if (buff)
 		free(buff);
 	return (NULL);
@@ -25,10 +25,12 @@ size_t	ft_strlen(const char *s)
 {
 	size_t	len;
 
+	if (!s)
+		return (0);
 	len = 0;
-	while (s[len++])
-		;
-	return (len - 1);
+	while (s[len])
+		len++;
+	return (len);
 }
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
@@ -44,24 +46,36 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-char	*ft_concat(char *content, char *buff)
+char	*ft_strchr(const char *s, int c)
 {
-	char	*new_content;
-	size_t	cont_len;
-	size_t	buff_len;
+	if (!s)
+		return (NULL);
+	while (*s)
+	{
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
+	}
+	if ((char)c == '\0')
+		return ((char *)s);
+	return (NULL);
+}
 
-	if (!content)
-		cont_len = 0;
-	else
-		cont_len = ft_strlen(content);
-	buff_len = ft_strlen(buff);
-	new_content = (char *)malloc((cont_len + buff_len + 1) * sizeof(char));
-	if (!new_content)
-		return (free(content), NULL);
-	if (content)
-		ft_memcpy(new_content, content, cont_len);
-	ft_memcpy(new_content + cont_len, buff, buff_len);
-	new_content[cont_len + buff_len] = '\0';
-	free(content);
-	return (new_content);
+char	*ft_append(char *reads, char *buff)
+{
+	char	*new_reads;
+	size_t	r_len;
+	size_t	b_len;
+
+	r_len = ft_strlen(reads);
+	b_len = ft_strlen(buff);
+	new_reads = (char *)malloc((r_len + b_len + 1) * sizeof(char));
+	if (!new_reads)
+		return (free(reads), NULL);
+	if (reads)
+		ft_memcpy(new_reads, reads, r_len);
+	ft_memcpy(new_reads + r_len, buff, b_len);
+	new_reads[r_len + b_len] = '\0';
+	free(reads);
+	return (new_reads);
 }

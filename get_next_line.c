@@ -14,105 +14,97 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-static int	ft_has_nl(const char *s)
+static char	*ft_update(char *reads)
 {
+	char	*new_reads;
 	size_t	i;
-
-	if (s == NULL)
-		return (0);
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == '\n')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-static char	*ft_update(char *content)
-{
-	char	*new_content;
-	int		i;
-	int		j;
+	size_t	j;
 
 	i = 0;
-	while (content[i] != '\n' && content[i] != '\0')
+	while (reads[i] != '\n' && reads[i] != '\0')
 		i++;
-	if (content[i] == '\0')
-		return (ft_free(content, NULL));
-	new_content = (char *)malloc((ft_strlen(content) - i + 1));
-	if (new_content == NULL)
-		return (ft_free(content, NULL));
+	if (reads[i] == '\0')
+		return (ft_free(reads, NULL));
+	new_reads = (char *)malloc((ft_strlen(reads) - i) * sizeof(char));
+	if (!new_reads)
+		return (ft_free(reads, NULL));
 	j = 0;
-	while (content[++i])
-		new_content[j++] = content[i];
-	new_content[j] = '\0';
-	free(content);
-	return (new_content);
+	while (reads[++i])
+		new_reads[j++] = reads[i];
+	new_reads[j] = '\0';
+	ft_free(reads, NULL);
+	return (new_reads);
 }
 
-static char	*ft_parseline(char *content)
+static char	*ft_parse(char *reads)
 {
 	char	*line;
-	int		i;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
-	if (content[0] == '\0')
+	if (reads[0] == '\0')
 		return (NULL);
-	while (content[i] != '\n' && content[i])
+	while (reads[i] != '\n' && reads[i] != '\0')
 		i++;
-	if (content[i] == '\n')
-		line = (char *)malloc((i + 2) * sizeof(char));
-	else
-		line = (char *)malloc((i + 1) * sizeof (char));
+	if (reads[i] == '\n')
+		i++;
+	line = (char *)malloc((i + 1) * sizeof(char));
 	if (!line)
 		return (NULL);
-	i = -1;
-	while (content[++i] != '\n' && content[i] != '\0')
-		line[i] = content[i];
-	if (content[i] == '\n')
-		line[i++] = '\n';
-	line[i] = '\0';
+	j = 0;
+	while (reads[j] != '\n' && reads[j] != '\0')
+	{
+		line[j] = reads[j];
+		j++;
+	}
+	if (reads[j] == '\n')
+		line[j++] = '\n';
+	line[j] = '\0';
 	return (line);
 }
 
-static char	*ft_readline(int fd, char *content)
+static char	*ft_read(int fd, char *reads)
 {
 	char	*buff;
 	ssize_t	b_read;
 
 	buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buff)
-		return (ft_free(content, NULL));
+		return (ft_free(reads, NULL));
 	b_read = 1;
-	while (b_read > 0 && ft_has_nl(content) == 0)
+	while (b_read > 0 && !ft_strchr(reads, '\n'))
 	{
 		b_read = read(fd, buff, BUFFER_SIZE);
 		if (b_read == -1)
-			return (ft_free(content, buff));
+			return (ft_free(reads, buff));
 		buff[b_read] = '\0';
-		content = ft_concat(content, buff);
-		if (!content)
-			return (ft_free(content, buff));
+		reads = ft_append(reads, buff);
+		if (!reads)
+			return (ft_free(reads, buff));
 	}
 	ft_free(NULL, buff);
-	return (content);
+	return (reads);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*content;
+	static char	*reads;
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	content = ft_readline(fd, content);
-	if (!content)
+	if (!ft_strchr(reads, '\n'))
+		reads = ft_read(fd, reads);
+	if (!reads)
 		return (NULL);
-	line = ft_parseline(content);
+	line = ft_parse(reads);
 	if (!line)
-		return (free(content), content = NULL, NULL);
-	content = ft_update(content);
+	{
+		free(reads);
+		reads = NULL;
+		return (NULL);
+	}
+	reads = ft_update(reads);
 	return (line);
 }
