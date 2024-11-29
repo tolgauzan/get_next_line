@@ -94,8 +94,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || fd >= FD_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!ft_strchr(reads[fd], '\n'))
-		reads[fd] = ft_read(fd, reads[fd]);
+	reads[fd] = ft_read(fd, reads[fd]);
 	if (!reads[fd])
 		return (NULL);
 	line = ft_parse(reads[fd]);
