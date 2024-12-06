@@ -6,7 +6,7 @@
 </div>
 
 # GetNextLine
----
+
 Bu proje, bir dosya tanımlayıcısından her seferinde bir satır okuyan çok kullanışlı bir işlevi kodlamakla ilgilidir. Gelecekteki projeler için [Libft](https://github.com/tolgauzan/libft) koleksiyonuna eklenmelidir.
 
 **Grade** : 125/100 \
