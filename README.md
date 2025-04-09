@@ -1,18 +1,9 @@
-<div align="center">
-  <!-- Logo -->
-  <a href="https://github.com/tolgauzan/get_next_line">
-  <img src="docs/get_next_line.png" alt="Logo" width="150" height="150">
-  </a>
-</div>
 
 # GetNextLine
 
 Bu proje, bir dosya tanımlayıcısından her seferinde bir satır okuyan çok kullanışlı bir işlevi kodlamakla ilgilidir. Gelecekteki projeler için [Libft](https://github.com/tolgauzan/libft) koleksiyonuna eklenmelidir.
 
 **Grade** : 125/100 \
-**Subjects v.12** : [`EN`](docs/get_next_line_v12.pdf) \
-**42 Norm v.4** : [`EN`](docs/norm_v4.en.pdf)
-
 
 ## İçerik
 
